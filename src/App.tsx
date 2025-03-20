@@ -26,7 +26,7 @@ export const App: React.FC = () => {
     }
 
     return peopleFromServer.filter(people =>
-      people.name.toLowerCase().includes(appliedQuery.toLowerCase()),
+      people.name.toLowerCase().includes(appliedQuery.toLowerCase().trim()),
     );
   }, [appliedQuery]);
 
