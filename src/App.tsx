@@ -20,15 +20,17 @@ export const App: React.FC = () => {
     setIsDropdownOpen(true);
   };
 
+  const normalizedAppliedQuery = appliedQuery.trim().toLowerCase();
+
   const filteredPeoples = useMemo(() => {
-    if (!appliedQuery) {
+    if (!normalizedAppliedQuery) {
       return peopleFromServer;
     }
 
     return peopleFromServer.filter(people =>
-      people.name.toLowerCase().includes(appliedQuery.toLowerCase().trim()),
+      people.name.toLowerCase().includes(normalizedAppliedQuery),
     );
-  }, [appliedQuery]);
+  }, [normalizedAppliedQuery]);
 
   return (
     <div className="container">
@@ -49,7 +51,7 @@ export const App: React.FC = () => {
               onChange={handleQueryChange}
               value={query}
               onFocus={() => setIsDropdownOpen(true)}
-              onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)}
+              onBlur={() => setIsDropdownOpen(false)}
             />
           </div>
 
@@ -66,7 +68,7 @@ export const App: React.FC = () => {
                       key={people.slug}
                       className="dropdown-item"
                       data-cy="suggestion-item"
-                      onClick={() => {
+                      onMouseDown={() => {
                         setSelectedPerson(people);
                         setQuery(people.name);
                         setIsDropdownOpen(false);
